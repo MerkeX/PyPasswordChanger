@@ -28,7 +28,7 @@ def print_help_guide():
                 print(line)
     except:
         print(">> ERROR. File 'HELP.txt' not found\n")
-       
+
     print(">> Select an option");
     print(">>");
     print(">> 1 - Execute the program");
@@ -40,13 +40,13 @@ def print_help_guide():
     op = str(input(">> "));
 
     if(op == str(1)):
-        single_password_writer.execute();
+        Password.Single();
 
     elif(op == str(2)):
-        password_list_generator.execute();
+        Password.Store();
 
     elif(op == str(3)):
-        password_updater.execute();
+        Password.Update();
 
     elif(op == str('x') or op == str('x')):
         printt(">> You chose to close this tool. Exiting...")
