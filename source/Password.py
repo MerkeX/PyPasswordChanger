@@ -1,8 +1,8 @@
-Cipher.Caesar
+
 # Simple script to self.Generate a single password
 #
 # Get length and charset as input, and return a random string
-import os,sys,platform,csv
+import os,sys,csv
 from getpass import getuser
 import Cipher
 from tkinter.filedialog import askdirectory, askopenfilename
@@ -14,11 +14,6 @@ from pathlib import Path
 from random import randint
 
 class Password:
-
-    charset_0 = "abcdefghijklmnopqrstuvwxyz0123456789";
-    charset_1 = charset_0 + "@#$%&";
-    charset_2 = charset_0 + "ABCDEGHIJKLMNOPQRSTUVWXYZ";
-    charset_3 = charset_2 + "@#$%&";
 
     def Generate(self,length,charset):
         """
@@ -36,6 +31,10 @@ class Password:
         Return charset and length of the password
         'return charset,length_password'
         """
+        charset_0 = "abcdefghijklmnopqrstuvwxyz0123456789";
+        charset_1 = charset_0 + "@#$%&";
+        charset_2 = charset_0 + "ABCDEGHIJKLMNOPQRSTUVWXYZ";
+        charset_3 = charset_2 + "@#$%&";
         # CHARSET SELECTION
         print(">> Charset available: ");
         print(">> 1 - ",charset_0);
@@ -104,6 +103,7 @@ class Password:
         mode = 0 if single mode (insert password one by one)
         mode = 1 if automated mode (use a imported file)
         """
+        path = self.PathSelection();
         pass_text_num = str(input(">> Would you like to write a file with the unencrypted passwords?[y/n]: "));
                 # CHECK IF THE FILES ARE ALREADY THERE
                 # IF SO, WE DELETE THEM
@@ -212,19 +212,16 @@ class Password:
                                     clear_writer.writerow([group_name,site_name,user_name,password,]);
             if (num_files != 2):
                 os.remove(path + "list_clear_passwords.csv");
+                print("\n");
+        print(">> Please check if there are any errors in the new files");
+        print(">> (Like repeated passwords, presence of some old passwords etc.)");
+        print(">> [Thank you for your comprehension]\n");
+        print(">> Program terminated. Remember: your file(s) are stored in ", path);
 
 
     def Single(self):
-        self.PathSelection();
         self.Write(0);
 
     def Update(self):
         self.SettingsSelection();
-        self.PathSelection();
         self.Write(1);
-
-    print("\n");
-    print(">> Please check if there are any errors in the new files");
-    print(">> (Like repeated passwords, presence of some old passwords etc.)");
-    print(">> [Thank you for your comprehension]\n");
-    print(">> Program terminated. Remember: your file(s) are stored in ",path);

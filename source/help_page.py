@@ -5,9 +5,7 @@
 # LOCATED IN THE SAME FOLDER; IT IS MADE JUST FOR EASE; IT IS SIMPLER
 # TO MODIFY A TEXT FILE
 
-import password_updater, password_list_generator, single_password_writer
-import os
-from sys import exit
+import os,sys
 
 def print_help_guide():
     #path = os.path.dirname(os.path.abspath(__file__));
@@ -32,8 +30,7 @@ def print_help_guide():
     print(">> Select an option");
     print(">>");
     print(">> 1 - Execute the program");
-    print(">> 2 - Automated process");
-    print(">> 3 - Update the password");
+    print(">> 2 - Update the password");
     print(">> X - Exit the program");
     print("\n");
 
@@ -43,15 +40,12 @@ def print_help_guide():
         Password.Single();
 
     elif(op == str(2)):
-        Password.Store();
-
-    elif(op == str(3)):
         Password.Update();
 
     elif(op == str('x') or op == str('x')):
-        printt(">> You chose to close this tool. Exiting...")
+        print(">> You chose to close this tool. Exiting...")
         sys.exit(0);
 
     else:
         print(">> Program terminated without harming the system!\n");
-        exit(0);
+        sys.exit(0);

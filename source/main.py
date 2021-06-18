@@ -5,8 +5,8 @@
 # Date:    28/11/2018
 #
 
-import os,sys,platform,getpass
-import Password
+import os,sys,platform
+import Password,help_page
 
 def main():
     # START HEADER
