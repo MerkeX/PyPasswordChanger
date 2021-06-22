@@ -1,6 +1,3 @@
-
-import string
-
 class Cipher:
     
     def __init__(self, cipherText):
@@ -14,12 +11,16 @@ class Cipher:
                 stayInAlphabet = ord(char) + shift
                 if(stayInAlphabet > ord('Z')):
                     stayInAlphabet -= 26
+                elif(stayInAlphabet < ord('A')):
+                    stayInAlphabet += 26
                 finalLetter = chr(stayInAlphabet)
                 cipherText += finalLetter
             elif(char.islower() == True):
                 stayInAlphabet = ord(char) + shift
                 if(stayInAlphabet > ord('z')):
                     stayInAlphabet -= 26
+                elif(stayInAlphabet < ord('a')):
+                    stayInAlphabet += 26
                 finalLetter = chr(stayInAlphabet)
                 cipherText += finalLetter
             elif(char.isdigit() == True):
@@ -30,13 +31,36 @@ class Cipher:
                 # if the char is nor a letter nor a digit
                 # just copy it (special characters, spaces, etc.)
                 cipherText = cipherText + str(char)
-            
-            self.cipherText = cipherText
-            
-    def ProgressiveCaesar(self,plainText,shift):
-        l = len(plainText) - 1
-        cipherText = ""
-        for i in range(0,l):
-            char = plainText[i]
-            cipherChar = self.C
-        
+        self.cipherText = cipherText
+    
+    def IncreasingCaesar(self,plainText,shift):
+        """
+        It's like Caesar(plainText,shift), but the shift
+        increase by 1 every step (that's way "Progressive")
+        Example:
+            plainText = abcdefgh
+            Caesar(plainText,2) = cdefghij
+            IncreasingCaesar(plainText,2) = cegikmoq
+        """
+        cipherText = ""; i = 0
+        for char in plainText:
+            cipherChar = self.Caesar(char,(shift + i))
+            cipherText += cipherChar
+            i += 1
+        self.cipherText = cipherText
+
+    def DecreasingCaesar(self,plainText,shift):
+        """
+        It's like Caesar(plainText,shift), but the shift
+        increase by 1 every step (that's way "Progressive")
+        Example:
+            plainText = abcdefgh
+            Caesar(plainText,2) = cdefghij
+            DecreasingCaesar(plainText,2) = cbazyxwv
+        """
+        cipherText = ""; i = 0
+        for char in plainText:
+            cipherChar = self.Caesar(char,(shift - 2*i))
+            cipherText += cipherChar
+            i += 1
+        self.cipherText = cipherText

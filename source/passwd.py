@@ -1,7 +1,4 @@
 
-# Simple script to self.Generate a single password
-#
-# Get length and charset as input, and return a random string
 import os,sys,csv
 from getpass import getuser
 import Cipher
