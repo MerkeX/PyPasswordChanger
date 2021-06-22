@@ -7,23 +7,28 @@
 
 import os,sys,platform
 from passwd import Password
-import passwd,help_page
 
-if __name__ == '__main__':
-    # START HEADER
+def main():
+    """
+    HELP PAGE
+    This tool allows you to generate new passwords for all your websites account.
+    
+    - OPTION 1:
+    With the option (1) you insert the site name and your user name one by one
+    (Boring and time consuming if you have a lot of passwords to change).
+    
+    - OPTION 2:
+    With the option (2), you will need to have the exported file containing all of
+    stored password (You can obtain it from 'passwords.google.com' or, if you're
+    using Google Chrome, by typing "chrome://settings/passwords" in the address bar);
+    Nonetheless, you have the possibility to actually encrypt your password, using a simple
+    'Caesar Cipher', so you can write down your passwords without worrying about some one
+    getting his hands on your them.
+
+    /END
+    """
     print("\n")
-
-    print("========== PASSWORD CHANGER ===========\n");
-    if(os.name == "nt"):
-        print(">> OS Detected: " + str(platform.system()) + " " + str(platform.release()) + " " + "v" + str(platform.version())[5:])
-    elif(os.name == "posix"):
-        print(">> OS Detected: " + str(platform.system()) + " " + str(platform.release()))
-
-    # END HEADER
-
-    print("\n");
     # OPERATION SELECTION
-    print(">> Welcome! Please press:")
     print(">> 1 - Execute the program  --> Generate password one by one")
     print(">> 2 - Automated process    --> Get input file and write all passwords")
     print(">> 3 - Print the help page  --> Get some help with this tool")
@@ -40,7 +45,8 @@ if __name__ == '__main__':
         Passwd.Update()
 
     elif(op == str(3)):
-        help_page.print_help_guide()
+        print(main.__doc__)
+        main()
 
     elif(op == str('X') or op == str('x')):
         print(">> Closing the program as requested...")
@@ -49,3 +55,16 @@ if __name__ == '__main__':
         # INPUT WAS INVALID. EXIT
         print(">> Program terminated without harming the system!\n")
         sys.exit(0)
+        
+if __name__ == '__main__':
+    # START HEADER
+    print("\n")
+    print("========== PASSWORD CHANGER ===========\n");
+    if(os.name == "nt"):
+        print(">> OS Detected: " + str(platform.system()) + " " + str(platform.release()) + " " + "v" + str(platform.version())[5:])
+    elif(os.name == "posix"):
+        print(">> OS Detected: " + str(platform.system()) + " " + str(platform.release()))
+
+    # END HEADER
+    print(">> Welcome! Please press:")
+    main()
