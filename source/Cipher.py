@@ -36,7 +36,7 @@ class Cipher:
     def IncreasingCaesar(self,plainText,shift):
         """
         It's like Caesar(plainText,shift), but the shift
-        increase by 1 every step (that's way "Progressive")
+        increases by 1 every step (that's why "Increasing")
         Example:
             plainText = abcdefgh
             Caesar(plainText,2) = cdefghij
@@ -52,7 +52,7 @@ class Cipher:
     def DecreasingCaesar(self,plainText,shift):
         """
         It's like Caesar(plainText,shift), but the shift
-        increase by 1 every step (that's way "Progressive")
+        decreases by 1 every step (that's why "Decreasing")
         Example:
             plainText = abcdefgh
             Caesar(plainText,2) = cdefghij
