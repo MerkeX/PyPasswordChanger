@@ -38,7 +38,6 @@ class Password:
     def SettingsSelection(self):
         """
         Return charset and length of the password
-        'return charset,length_password'
         """
         # CHARSET SELECTION
         print(">> Charset available: ")
@@ -75,6 +74,10 @@ class Password:
         self.length = length_password
 
     def PathSelection(self):
+        """
+        Let user select the folder in which store the new 
+        files with the new passwords
+        """
         # LET USER SELECT THE FOLDER IN WHICH STORE THE FILE(S)
         # IF THE LOCATION IS INCORRECT OR WE CAN'T ACCESS IT,
         # USE THE 'DESKTOP' FOLDER
@@ -101,42 +104,44 @@ class Password:
                 path =  "C:\\Users\\" + current_username + "\\Desktop"
             elif(os.name == "posix"):
                 path = "/home/" + current_username + "/"
-        print(">> Files will be created in ",path)
+        print(">> File(s) will be created in ",path)
         return path
 
     def Write(self,mode):
-        """
-        mode = 0 if single mode (insert password one by one)
-        mode = 1 if automated mode (use a imported file)
-        """
+        #mode = 0 if single mode (insert password one by one)
+        #mode = 1 if automated mode (use a imported file)
+        
+        cipher_passwd = cipher.Cipher("")
+
         path = self.PathSelection()
-        pass_text_num = str(input(">> Would you like to write a file with the unencrypted passwords?[y/n]: "))
+        pass_text_num = str(input(">> Would you like to write a file with the encrypted passwords?[y/n]: "))
                 # CHECK IF THE FILES ARE ALREADY THERE
                 # IF SO, WE DELETE THEM
         if(pass_text_num == 'y' or pass_text_num == 'Y'):
-            if (os.path.isfile(path + 'list_passwords_new.csv') == 'True'):
-                os.remove(path + 'list_passwords_new.csv')
-            if (os.path.isfile(path + "list_clear_passwords.csv") == 'True'):
-                os.remove(path + "list_clear_passwords.csv")
+            if (os.path.isfile(path + 'list_clear_passwords_new.csv') == 'True'):
+                os.remove(path + 'list_clear_passwords_new.csv')
+            if (os.path.isfile(path + "list_encrypt_passwords.csv") == 'True'):
+                os.remove(path + "list_encrypt_passwords.csv")
+            shift = int(input(">> Insert shift [1-25]:  "))
             num_files = 2
         elif(pass_text_num == 'n' or pass_text_num == 'N'):
-            if (os.path.isfile(path + "list_passwords_new.csv") == 'True'):
-                os.remove(path + "list_passwords_new.csv")
+            if (os.path.isfile(path + "list_clear_passwords_new.csv") == 'True'):
+                os.remove(path + "list_clear_passwords_new.csv")
             num_files = 1
         else:
-            print(">> Choice not valid. Only the file with the encrypted passwords will be created")
-            if (os.path.isfile(path + "list_passwords_new.csv") == 'True'):
-                os.remove(path + "list_passwords_new.csv")
+            print(">> Choice not valid. Only the file with the unencrypted passwords will be created")
+            if (os.path.isfile(path + "list_clear_passwords_new.csv") == 'True'):
+                os.remove(path + "list_clear_passwords_new.csv")
             num_files = 1
         # SINGLE MODE
         if(mode == 0):
-            encrypt_password_file = open(path + "list_password.csv","w")
-            encrypt_header = "GROUP;SITE;USERNAME;ENCRYPTED PASSWORD\n"
-            encrypt_password_file.write(encrypt_header)
+            clear_password_file = open(path + "list_clear_password.csv","w")
+            clear_header = "GROUP;SITE;USERNAME;CLEAR PASSWORD\n"
+            clear_password_file.write(clear_header)
             if (num_files == 2):
-                clear_password_file = open(path + "list_clear_password.csv","w")
-                clear_header = "GROUP;SITE;USERNAME;CLEAR PASSWORD\n"
-                clear_password_file.write(clear_header)
+                encrypt_password_file = open(path + "list_encrypt_password.csv","w")
+                encrypt_header = "GROUP;SITE;USERNAME;ENCRYPTED PASSWORD\n"
+                encrypt_password_file.write(encrypt_header)
             flag = 0
             while(flag == 0):
                 site_name = str(input(">> Insert site: "))
@@ -152,11 +157,11 @@ class Password:
                     user_name = str(input(">> Insert username: "))
                 print(">> Generating password...\n")
                 self.text = Password.Generate(self.charset,self.length)
-                #caesar_password = Cipher.Caesar(password)
+                caesar_password = cipher_passwd.Caesar(self.text,shift) 
                 delimiter = ";"
-                encrypt_password_file.write(site_name + delimiter + user_name  + delimiter + caesar_password + "\n")
+                clear_password_file.write(site_name + delimiter + user_name  + delimiter + self.text + "\n")
                 if(num_files == 2):
-                    clear_password_file.write(site_name + delimiter + user_name + delimiter + self.text + "\n")
+                    encrypt_password_file.write(site_name + delimiter + user_name + delimiter + caesar_password + "\n")
                 ans = str(input(">> Repeat?[Y/n] "))
                 if(ans == 'y' or ans == 'Y'):
                     flag = 0
@@ -183,15 +188,16 @@ class Password:
                 print(">> No file selected. Program will now exit")
                 sys.exit(0)
             print(">> New file(s) will be stored in " + path)
-            with open(path + 'list_passwords_new.csv',mode = 'w',newline = "\n") as list_encrypted_passwords,\
-            open(path + 'list_clear_passwords_new',mode = 'w',newline = "\n") as list_clear_passwords:
-                encrypted_writer = csv.writer(list_encrypted_passwords,delimiter = ";")
-                encrypted_writer.writerow(["GROUP","SITE","USERNAME","ENCRYPTED PASSWORD"])
+            with open(path + 'list_clear_passwords_new.csv',mode = 'w',newline = "\n") as list_clear_passwords,\
+            open(path + 'list_encrypt_passwords_new.csv',mode = 'w',newline = "\n") as list_encrypted_passwords:
+                clear_writer = csv.writer(list_clear_passwords,delimiter = ";")
+                clear_writer.writerow(["GROUP","SITE","USERNAME","CLEAR PASSWORD"])
                 if(num_files == 2):
-                    clear_writer = csv.writer(list_clear_passwords,delimiter = ";")
-                    clear_writer.writerow(["GROUP","SITE","USERNAME","CLEAR PASSWORD"])
+                    encrypted_writer = csv.writer(list_encrypted_passwords,delimiter = ";")
+                    encrypted_writer.writerow(["GROUP","SITE","USERNAME","ENCRYPTED PASSWORD"])
                 with open(path_plus_filename,mode = 'r') as old_exported_passwords:
                     for i,row in enumerate(old_exported_passwords.readlines()):
+                        print(">> ",row)
                         if(i == 0): # SKIP 'GROUP','SITE','USERNAME',[...], ROW
                             pass
                         else:
@@ -199,24 +205,23 @@ class Password:
                                 items = row.split(';')
                                 group_name = items[0]; site_name = items[1]; user_name = items[2]
                                 self.text = self.Generate(self.charset,self.length)
-                                #password = self.Generate(length_password, charset)
-                                #caesar_password = Cipher.Caesar(password)
-                                encrypted_writer.writerow([group_name,site_name,user_name,caesar_password,])
+                                caesar_password = cipher_passwd.Caesar(self.text,shift) 
+                                clear_writer.writerow([group_name,site_name,user_name,self.text,])
                                 if(num_files == 2):
-                                    clear_writer.writerow([group_name,site_name,user_name,password,])
+                                    encrypted_writer.writerow([group_name,site_name,user_name,caesar_password,])
                             except:
                                 items = row.split(',')
                                 group_name = items[0]; site_name = items[1]; user_name = items[2]
                                 self.text = self.Generate(self.charset,self.length)
-                                #caesar_password = Cipher.Caesar(password)
-                                encrypted_writer.writerow([group_name,site_name,user_name,caesar_password,])
+                                caesar_password = cipher_passwd.Caesar(self.text,shift) 
+                                clear_writer.writerow([group_name,site_name,user_name,self.text,])
                                 if(num_files == 2):
-                                    clear_writer.writerow([group_name,site_name,user_name,password,])
+                                    encrypted_writer.writerow([group_name,site_name,user_name,caesar_password,])
             if (num_files != 2):
-                os.remove(path + "list_clear_passwords.csv")
+                os.remove(path + "list_encrypt_passwords.csv")
                 print("\n")
         print(">> Please check if there are any errors in the new files")
-        print(">> (Like repeated passwords, presence of some old passwords etc.)")
+        print(">> (like repeated passwords, presence of some old passwords etc.)")
         print(">> [Thank you for your comprehension]\n")
         print(">> Program terminated. Remember: your file(s) are stored in ", path)
 

@@ -6,7 +6,7 @@
 #
 
 import os,sys,platform
-from passwd import Password
+import passwd
 
 def main():
     """
@@ -24,24 +24,27 @@ def main():
     Nonetheless, you have the possibility to actually encrypt your password, using a simple
     'Caesar Cipher', so you can write down your passwords without worrying about some one
     getting his hands on your them.
+    
+    - OPTION 3:
+    Print this help message
 
     /END
     """
     print("\n")
     # OPERATION SELECTION
-    print(">> 1 - Execute the program  --> Generate password one by one")
-    print(">> 2 - Automated process    --> Get input file and write all passwords")
-    print(">> 3 - Print the help page  --> Get some help with this tool")
+    print(">> 1 - Generator")
+    print(">> 2 - Updater")
+    print(">> 3 - Help")
     print(">> X - Exit the program\n")
 
     op = str(input(">> "))
 
     if(op == str(1)):
-        Passwd = Password("","",0)
+        Passwd = passwd.Password("","",0)
         Passwd.Single()
 
     elif(op == str(2)):
-        Passwd = Password("","",0)
+        Passwd = passwd.Password("","",0)
         Passwd.Update()
 
     elif(op == str(3)):
