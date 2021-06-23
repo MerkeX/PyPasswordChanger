@@ -53,7 +53,6 @@ def main():
 
     elif(op == str(3)):
         print(main.__doc__)
-        print("\n")
         main()
 
     elif(op == str('X') or op == str('x')):

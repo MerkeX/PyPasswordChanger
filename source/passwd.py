@@ -1,5 +1,5 @@
 
-import os,sys,csv
+import os,sys,csv,time
 from getpass import getuser
 import cipher
 from tkinter.filedialog import askdirectory, askopenfilename
@@ -86,7 +86,10 @@ class Password:
         # LET USER SELECT THE FOLDER IN WHICH STORE THE FILE(S)
         # IF THE LOCATION IS INCORRECT OR WE CAN'T ACCESS IT,
         # USE THE 'DESKTOP' FOLDER
-        print(">> Select path for password list: \n")
+        print(">> Select path for password list: ")
+        print(":: (Keep in mind that every file previous generated")
+        print(":: will be deleted)")
+        time.sleep(2)
         try:
             path = askdirectory()
             # SELECTED NO FOLDER, USING DESKTOP AS wORKING DIRECTORY
@@ -119,9 +122,7 @@ class Password:
         - Set 1 if set in automated/updater mode (Option (2))
         
         """
-        #mode = 0 if single mode (insert password one by one)
-        #mode = 1 if automated mode (use a imported file)
-        
+
         cipher_passwd = cipher.Cipher("")
 
         path = self.PathSelection()
@@ -153,7 +154,7 @@ class Password:
                 encrypt_password_file = open(path + "list_encrypt_password.csv","w")
                 encrypt_header = "GROUP;SITE;USERNAME;ENCRYPTED PASSWORD\n"
                 encrypt_password_file.write(encrypt_header)
-            flag = 0
+            flag = 0; group_name = "Root"
             while(flag == 0):
                 site_name = str(input(">> Insert site: "))
                 # site_name[0] == " " --> USER CAN INSERT ANY NUMBER OF SPACES
@@ -166,14 +167,15 @@ class Password:
                 while(user_name == "" or user_name[0] == " "):
                     print(":: 'username' can't be empty. Retry")
                     user_name = str(input(">> Insert username: "))
-                #self.SettingsSelection()
-                print(":: Generating password...\n")
+                self.SettingsSelection()
+                print(":: Generating password...")
                 self.text = self.Generate(self.charset,self.length)
                 delimiter = ";"
-                clear_password_file.write(site_name + delimiter + user_name  + delimiter + self.text + "\n")
+                clear_password_file.write(group_name + delimiter + site_name + delimiter + user_name  + delimiter + self.text + "\n")
                 if(num_files == 2):
                     caesar_password = cipher_passwd.Caesar(self.text,shift) 
-                    encrypt_password_file.write(site_name + delimiter + user_name + delimiter + caesar_password + "\n")
+                    encrypt_password_file.write(group_name + delimiter + site_name + delimiter + user_name + delimiter + caesar_password + "\n")
+                print(":: Completed")
                 ans = str(input(">> Repeat?[Y/n] "))
                 if(ans == 'y' or ans == 'Y'):
                     flag = 0
@@ -182,10 +184,12 @@ class Password:
 
         # AUTOMATED MODE
         if (mode == 1):
-            print(">> Select the file containing the old passwords:\n")
+            print(">> Select the file containing the old passwords: ")
+            print(":: (Keep in mind that every file previous generated")
+            print(":: will be deleted)")
+            time.sleep(2)
             try:
                 path_plus_filename = askopenfilename()
-                #filename = os.path.basename(path_plus_filename)
                 while(Path(path_plus_filename).suffix != '.csv'):
                     print(":: File selected is not a csv. Retry...")
                     path_plus_filename = askopenfilename()
