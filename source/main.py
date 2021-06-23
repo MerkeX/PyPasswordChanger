@@ -15,15 +15,20 @@ def main():
     
     - OPTION 1:
     With the option (1) you insert the site name and your user name one by one
+    choosing every time the charset and the length of your passwords, in case you 
+    never save your passwords on your browsers or you have never used a password manager. 
     (Boring and time consuming if you have a lot of passwords to change).
+    You also have the possibility to write a file with your passwords encrypted with a 
+    'Caesar cipher' (a simple shift of the letters through the alphaber), in case you
+    want to print or store your passwords on your pc without having them in clear.
     
     - OPTION 2:
     With the option (2), you will need to have the exported file containing all of
-    stored password (You can obtain it from 'passwords.google.com' or, if you're
-    using Google Chrome, by typing "chrome://settings/passwords" in the address bar);
-    Nonetheless, you have the possibility to actually encrypt your password, using a simple
-    'Caesar Cipher', so you can write down your passwords without worrying about some one
-    getting his hands on your them.
+    stored passwords, from a browser or a password manager (must be in a .csv format).
+    From this file, 'Group', 'Site name' and 'user name' field will be obtained, followed 
+    by a new fresh generated password (you must choose the charset and the length of the passwords).
+    Like the option (1), you have the possibility to write a file with your password encrypted, to
+    keep it on your pc, or print as well.
     
     - OPTION 3:
     Print this help message

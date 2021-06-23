@@ -78,7 +78,10 @@ class Password:
     def PathSelection(self):
         """
         Let user select the folder in which store the new 
-        files with the new passwords
+        files with the new passwords. In case no folder is
+        selected, or an error occurred with the path (like
+        no write permission), file(s) will be stores in Desktop
+        (or in the /home folder, for linux use).
         """
         # LET USER SELECT THE FOLDER IN WHICH STORE THE FILE(S)
         # IF THE LOCATION IS INCORRECT OR WE CAN'T ACCESS IT,
@@ -110,6 +113,12 @@ class Password:
         return path
 
     def Write(self,mode):
+        """
+        Write(mode) function:
+        - Set 0 if set in single mode (Option (1))
+        - Set 1 if set in automated/updater mode (Option (2))
+        
+        """
         #mode = 0 if single mode (insert password one by one)
         #mode = 1 if automated mode (use a imported file)
         
