@@ -31,7 +31,7 @@ class Cipher:
                 # if the char is nor a letter nor a digit
                 # just copy it (special characters, spaces, etc.)
                 cipherText = cipherText + str(char)
-        self.cipherText = cipherText
+        return cipherText
     
     def IncreasingCaesar(self,plainText,shift):
         """

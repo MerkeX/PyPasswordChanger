@@ -32,13 +32,12 @@ def main():
     """
     print("\n")
     # OPERATION SELECTION
-    print(">> 1 - Generator")
-    print(">> 2 - Updater")
-    print(">> 3 - Help")
-    print(">> X - Exit the program\n")
+    print(":: 1 - Generator")
+    print(":: 2 - Updater")
+    print(":: 3 - Help")
+    print(":: X - Exit the program\n")
 
     op = str(input(">> "))
-
     if(op == str(1)):
         Passwd = passwd.Password("","",0)
         Passwd.Single()
@@ -49,14 +48,15 @@ def main():
 
     elif(op == str(3)):
         print(main.__doc__)
+        print("\n")
         main()
 
     elif(op == str('X') or op == str('x')):
-        print(">> Closing the program as requested...")
+        print(":: Closing the program as requested...")
         sys.exit(0)
     else:
         # INPUT WAS INVALID. EXIT
-        print(">> Program terminated without harming the system!\n")
+        print(":: Program terminated without harming the system!\n")
         sys.exit(0)
         
 if __name__ == '__main__':
@@ -64,10 +64,10 @@ if __name__ == '__main__':
     print("\n")
     print("========== PASSWORD CHANGER ===========\n");
     if(os.name == "nt"):
-        print(">> OS Detected: " + str(platform.system()) + " " + str(platform.release()) + " " + "v" + str(platform.version())[5:])
+        print(":: OS Detected: " + str(platform.system()) + " " + str(platform.release()) + " " + "v" + str(platform.version())[5:])
     elif(os.name == "posix"):
-        print(">> OS Detected: " + str(platform.system()) + " " + str(platform.release()))
+        print(":: OS Detected: " + str(platform.system()) + " " + str(platform.release()))
 
     # END HEADER
-    print(">> Welcome! Please press:")
+    print(":: Welcome! Please press:")
     main()

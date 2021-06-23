@@ -13,7 +13,7 @@ from random import randint
 class Password:
 
     # CHARSET ARE SHARED
-    global charset_0; global charset_1; global charset_2; global charset_3
+    global charset_0; global charset_1; global charset_2; global charset_3;
     charset_0 = "abcdefghijklmnopqrstuvwxyz0123456789"
     charset_1 = charset_0 + "@#$%&-.s"
     charset_2 = charset_0 + "ABCDEGHIJKLMNOPQRSTUVWXYZ"
@@ -40,11 +40,13 @@ class Password:
         Return charset and length of the password
         """
         # CHARSET SELECTION
-        print(">> Charset available: ")
-        print(">> 1 - ",charset_0)
-        print(">> 2 - ",charset_1)
-        print(">> 3 - ",charset_2)
-        print(">> 4 - ",charset_3)
+        print(":: Charset available: ")
+
+        print(":: 1 - ",charset_0)
+        print(":: 2 - ",charset_1)
+        print(":: 3 - ",charset_2)
+        print(":: 4 - ",charset_3)
+
         selection = str(input(">> Select charset [1-4]: "))
         if(selection == '1'):
             charset = charset_0
@@ -55,20 +57,20 @@ class Password:
         elif (selection == '4'):
             charset = charset_3
         else:
-            print(">> Invalid choice. Default (1) will be used")
+            print(":: Invalid choice. Default (1) will be used")
             charset = charset_0
         # LENGTH SELECTION
         try:
             length_password = int(input(">> Set password length [6-128]: "))
             if(length_password > 128):
-                print(">> Maximum password length reached. Length password will be 128")
+                print(":: Maximum password length reached. Length password will be 128")
                 length_password = 128
             if(length_password < 6):
-                print(">> Minimum password length not reached. Length password will be 6")
+                print(":: Minimum password length not reached. Length password will be 6")
                 length_password = 6
             # IF THERE'S ANY ERROR (NEGATIVE NUMBER, LETTERS) JUST PUT A LENGTH OF 16
         except:
-            print(">> Incorrect input. Length is set to 16")
+            print(":: Incorrect input. Length is set to 16")
             length_password = 16
         self.charset = charset
         self.length = length_password
@@ -86,7 +88,7 @@ class Password:
             path = askdirectory()
             # SELECTED NO FOLDER, USING DESKTOP AS wORKING DIRECTORY
             if(path == ""):
-                print(">> No folder selected. File(s) will be stored in Desktop")
+                print(":: No folder selected. File(s) will be stored in Desktop")
                 current_username = getuser()
                 if(os.name == "nt"):
                     path =  "C:\\Users\\" + current_username + "\\Desktop"
@@ -104,7 +106,7 @@ class Password:
                 path =  "C:\\Users\\" + current_username + "\\Desktop"
             elif(os.name == "posix"):
                 path = "/home/" + current_username + "/"
-        print(">> File(s) will be created in ",path)
+        print(":: File(s) will be created in ",path)
         return path
 
     def Write(self,mode):
@@ -129,7 +131,7 @@ class Password:
                 os.remove(path + "list_clear_passwords_new.csv")
             num_files = 1
         else:
-            print(">> Choice not valid. Only the file with the unencrypted passwords will be created")
+            print(":: Choice not valid. Only the file with the unencrypted passwords will be created")
             if (os.path.isfile(path + "list_clear_passwords_new.csv") == 'True'):
                 os.remove(path + "list_clear_passwords_new.csv")
             num_files = 1
@@ -148,19 +150,20 @@ class Password:
                 # site_name[0] == " " --> USER CAN INSERT ANY NUMBER OF SPACES
                 # 'site_name' IS ALWAYS INVALID; JUST CHECK THE FIRST CHAR
                 while(site_name == "" or site_name[0] == " "):
-                    print(">> 'Site' can't be empty. Retry")
+                    print(":: 'Site' can't be empty. Retry")
                     site_name = str(input(">> Insert site: "))
                 user_name = str(input(">> Insert username: "))
                 # user_name[0] == " " --> SAME AS 'user_name'
                 while(user_name == "" or user_name[0] == " "):
-                    print(">> 'username' can't be empty. Retry")
+                    print(":: 'username' can't be empty. Retry")
                     user_name = str(input(">> Insert username: "))
-                print(">> Generating password...\n")
-                self.text = Password.Generate(self.charset,self.length)
-                caesar_password = cipher_passwd.Caesar(self.text,shift) 
+                #self.SettingsSelection()
+                print(":: Generating password...\n")
+                self.text = self.Generate(self.charset,self.length)
                 delimiter = ";"
                 clear_password_file.write(site_name + delimiter + user_name  + delimiter + self.text + "\n")
                 if(num_files == 2):
+                    caesar_password = cipher_passwd.Caesar(self.text,shift) 
                     encrypt_password_file.write(site_name + delimiter + user_name + delimiter + caesar_password + "\n")
                 ans = str(input(">> Repeat?[Y/n] "))
                 if(ans == 'y' or ans == 'Y'):
@@ -173,9 +176,9 @@ class Password:
             print(">> Select the file containing the old passwords:\n")
             try:
                 path_plus_filename = askopenfilename()
-                filename = os.path.basename(path_plus_filename)
+                #filename = os.path.basename(path_plus_filename)
                 while(Path(path_plus_filename).suffix != '.csv'):
-                    print(">> File selected is not a csv. Retry...")
+                    print(":: File selected is not a csv. Retry...")
                     path_plus_filename = askopenfilename()
                     path = os.path.dirname(path_plus_filename)
                     if(os.name == "nt"):
@@ -185,9 +188,9 @@ class Password:
                         # IF NOTHING IS SELECTED, WE CAN'T ACCESS THE FOLDER OR ANYTHING else
                         # PUT THE FILES ON THE DESKTOP
             except:
-                print(">> No file selected. Program will now exit")
+                print(":: No file selected. Program will now exit")
                 sys.exit(0)
-            print(">> New file(s) will be stored in " + path)
+            print(":: New file(s) will be stored in " + path)
             with open(path + 'list_clear_passwords_new.csv',mode = 'w',newline = "\n") as list_clear_passwords,\
             open(path + 'list_encrypt_passwords_new.csv',mode = 'w',newline = "\n") as list_encrypted_passwords:
                 clear_writer = csv.writer(list_clear_passwords,delimiter = ";")
@@ -197,7 +200,6 @@ class Password:
                     encrypted_writer.writerow(["GROUP","SITE","USERNAME","ENCRYPTED PASSWORD"])
                 with open(path_plus_filename,mode = 'r') as old_exported_passwords:
                     for i,row in enumerate(old_exported_passwords.readlines()):
-                        print(">> ",row)
                         if(i == 0): # SKIP 'GROUP','SITE','USERNAME',[...], ROW
                             pass
                         else:
@@ -220,10 +222,10 @@ class Password:
             if (num_files != 2):
                 os.remove(path + "list_encrypt_passwords.csv")
                 print("\n")
-        print(">> Please check if there are any errors in the new files")
-        print(">> (like repeated passwords, presence of some old passwords etc.)")
-        print(">> [Thank you for your comprehension]\n")
-        print(">> Program terminated. Remember: your file(s) are stored in ", path)
+        print(":: Please check if there are any errors in the new files")
+        print(":: (like repeated passwords, presence of some old passwords etc.)")
+        print(":: [Thank you for your comprehension]\n")
+        print(":: Program terminated. Remember: your file(s) are stored in ", path)
 
 
     def Single(self):
