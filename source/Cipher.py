@@ -8,20 +8,20 @@ class Cipher:
         cipherText = ""
         for char in plainText:
             if(char.isupper() == True):
-                stayInAlphabet = ord(char) + shift
-                if(stayInAlphabet > ord('Z')):
-                    stayInAlphabet -= 26
-                elif(stayInAlphabet < ord('A')):
-                    stayInAlphabet += 26
-                finalLetter = chr(stayInAlphabet)
+                new_ord = ord(char) + shift
+                if(new_ord > ord('Z')):
+                    new_ord -= 26
+                elif(new_ord < ord('A')):
+                    new_ord += 26
+                finalLetter = chr(new_ord)
                 cipherText += finalLetter
             elif(char.islower() == True):
-                stayInAlphabet = ord(char) + shift
-                if(stayInAlphabet > ord('z')):
-                    stayInAlphabet -= 26
-                elif(stayInAlphabet < ord('a')):
-                    stayInAlphabet += 26
-                finalLetter = chr(stayInAlphabet)
+                new_ord = ord(char) + shift
+                if(new_ord > ord('z')):
+                    new_ord -= 26
+                elif(new_ord < ord('a')):
+                    new_ord += 26
+                finalLetter = chr(new_ord)
                 cipherText += finalLetter
             elif(char.isdigit() == True):
                 digit = int(char)

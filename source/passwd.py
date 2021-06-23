@@ -1,7 +1,7 @@
 
 import os,sys,csv
 from getpass import getuser
-import Cipher
+import cipher
 from tkinter.filedialog import askdirectory, askopenfilename
 # WE HAVE TO DRAW A TK ROOT WINDOW BECAUSE IF WE DON'T DO THAT,
 # A NEW ONE WILL BE OPENED WHEN ASKING FOR THE FILE
@@ -12,7 +12,7 @@ from random import randint
 
 class Password:
 
-    # CHARSET ARE SHARED BETWEEN METHODS
+    # CHARSET ARE SHARED
     global charset_0; global charset_1; global charset_2; global charset_3
     charset_0 = "abcdefghijklmnopqrstuvwxyz0123456789"
     charset_1 = charset_0 + "@#$%&-.s"
