@@ -33,7 +33,7 @@ class Password:
         for i in range(0,length):
             j = randint(0,l)
             passwd = passwd + charset[j]
-        self.text = passwd
+        return passwd
 
     def SettingsSelection(self):
         """
