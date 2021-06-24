@@ -6,6 +6,11 @@ class Cipher:
     def Caesar(self,plainText,shift):
         """Insert text to encode and shift"""
         cipherText = ""
+        
+        # A shift of 32 (example) is useless
+        # shift is meant to be [1-25]
+        if(shift > 26):
+            shift = (shift % 26)
         for char in plainText:
             if(char.isupper() == True):
                 new_ord = ord(char) + shift

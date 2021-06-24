@@ -135,13 +135,15 @@ class Password:
             if (os.path.isfile(path + "list_encrypt_passwords.csv") == 'True'):
                 os.remove(path + "list_encrypt_passwords.csv")
             shift = int(input(">> Insert shift [1-25]:  "))
+            if(shift > 26):
+                print(":: Shift it too big. A shift of ",(shift % 26)," will be used.")
             num_files = 2
         elif(pass_text_num == 'n' or pass_text_num == 'N'):
             if (os.path.isfile(path + "list_clear_passwords_new.csv") == 'True'):
                 os.remove(path + "list_clear_passwords_new.csv")
             num_files = 1
         else:
-            print(":: Choice not valid. Only the file with the unencrypted passwords will be created")
+            print(":: Choice not valid. Only the file with the unencrypted passwords will be created.")
             if (os.path.isfile(path + "list_clear_passwords_new.csv") == 'True'):
                 os.remove(path + "list_clear_passwords_new.csv")
             num_files = 1
@@ -170,10 +172,10 @@ class Password:
                         user_name = str(input(">> Insert username: "))
                     self.SettingsSelection()
                     print(":: Generating password...")
-                    self.text = self.Generate(self.charset,self.length)
-                    caesar_password = cipher_passwd.Caesar(self.text,shift) 
+                    self.text = self.Generate(self.charset,self.length)      
                     clear_writer.writerow([group_name,site_name,user_name,self.text,])
                     if(num_files == 2):
+                        caesar_password = cipher_passwd.Caesar(self.text,shift) 
                         encrypted_writer.writerow([group_name,site_name,user_name,caesar_password,])
                     print(":: Completed")
                     ans = str(input(">> Repeat?[Y/n] "))
@@ -185,9 +187,6 @@ class Password:
         # AUTOMATED MODE
         elif (mode == 1):
             print(">> Select the file containing the old passwords: ")
-            print(":: (Keep in mind that every file previous generated")
-            print(":: will be deleted)")
-            time.sleep(2)
             try:
                 path_plus_filename = askopenfilename()
                 while(Path(path_plus_filename).suffix != '.csv'):
@@ -220,24 +219,22 @@ class Password:
                                 items = row.split(';')
                                 group_name = items[0]; site_name = items[1]; user_name = items[2]
                                 self.text = self.Generate(self.charset,self.length)
-                                caesar_password = cipher_passwd.Caesar(self.text,shift) 
                                 clear_writer.writerow([group_name,site_name,user_name,self.text,])
                                 if(num_files == 2):
+                                    caesar_password = cipher_passwd.Caesar(self.text,shift) 
                                     encrypted_writer.writerow([group_name,site_name,user_name,caesar_password,])
                             except:
                                 items = row.split(',')
                                 group_name = items[0]; site_name = items[1]; user_name = items[2]
                                 self.text = self.Generate(self.charset,self.length)
-                                caesar_password = cipher_passwd.Caesar(self.text,shift) 
                                 clear_writer.writerow([group_name,site_name,user_name,self.text,])
                                 if(num_files == 2):
+                                    caesar_password = cipher_passwd.Caesar(self.text,shift)
                                     encrypted_writer.writerow([group_name,site_name,user_name,caesar_password,])
-            if (num_files != 2):
-                os.remove(path + "list_encrypt_passwords.csv")
-                print("\n")
+                                    
         print(":: Please check if there are any errors in the new files")
         print(":: (like repeated passwords, presence of some old passwords etc.)")
-        print(":: [Thank you for your comprehension]\n")
+        print(":: [Thank you for your comprehension].\n")
         print(":: Program terminated. Remember: your file(s) are stored in ", path)
 
 
