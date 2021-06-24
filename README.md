@@ -1,4 +1,4 @@
-# PyPasswordChanger v1.0
+# PyPasswordChanger v2.0
 
 PyPasswordChanger is a simple tool to create new/update passwords from different sites.
 It can generate new passwords one-by-one, or can generate new ones obtaining 'username' and
