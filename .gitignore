@@ -122,3 +122,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Visual Studio + VS Code
+.vs/*
+.vscode/*
+
+.fake
+.ionide
