@@ -14,13 +14,13 @@ def main():
     This tool allows you to generate new passwords for all your websites account.
     
     - OPTION 1:
-    With the option (1) you insert the site name and your user name one by one
-    choosing every time the charset and the length of your passwords, in case you 
+    With the option (1) you insert the site name and your user name one by one,
+    choosing every time the charset and the length of your passwords in case you 
     never save your passwords on your browsers or you have never used a password manager. 
-    (Boring and time consuming if you have a lot of passwords to change).
+    (Boring and time consuming if you have a lot of passwords to add).
     You also have the possibility to write a file with your passwords encrypted with a 
-    'Caesar cipher' (a simple shift of the letters through the alphaber), in case you
-    want to print or store your passwords on your pc without having them in clear.
+    'Caesar cipher' (a simple shift of the letters through the alphabet), in case you
+    want to print or store your passwords on your pc without having them in clear text.
     
     - OPTION 2:
     With the option (2), you will need to have the exported file containing all of
@@ -28,10 +28,15 @@ def main():
     From this file, 'Group', 'Site name' and 'user name' field will be obtained, followed 
     by a new fresh generated password (you must choose the charset and the length of the passwords).
     Like the option (1), you have the possibility to write a file with your password encrypted, to
-    keep it on your pc, or print as well.
+    keep it on your pc, or print it as well.
     
     - OPTION 3:
-    Print this help message
+    Print this help message.
+    
+    ****                                                                             ****
+    ** If you want to test the software, to check how it works without using your real **
+    ** usernames and passwords, you can use the test file in the 'example' folder.     **
+    ****                                                                             ****
 
     /END
     """
