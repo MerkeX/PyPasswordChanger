@@ -145,45 +145,45 @@ class Password:
             if (os.path.isfile(path + "list_clear_passwords_new.csv") == 'True'):
                 os.remove(path + "list_clear_passwords_new.csv")
             num_files = 1
+        
         # SINGLE MODE
         if(mode == 0):
-            clear_password_file = open(path + "list_clear_password.csv","w")
-            clear_header = "GROUP;SITE;USERNAME;CLEAR PASSWORD\n"
-            clear_password_file.write(clear_header)
-            if (num_files == 2):
-                encrypt_password_file = open(path + "list_encrypt_password.csv","w")
-                encrypt_header = "GROUP;SITE;USERNAME;ENCRYPTED PASSWORD\n"
-                encrypt_password_file.write(encrypt_header)
-            flag = 0; group_name = "Root"
-            while(flag == 0):
-                site_name = str(input(">> Insert site: "))
-                # site_name[0] == " " --> USER CAN INSERT ANY NUMBER OF SPACES
-                # 'site_name' IS ALWAYS INVALID; JUST CHECK THE FIRST CHAR
-                while(site_name == "" or site_name[0] == " "):
-                    print(":: 'Site' can't be empty. Retry")
-                    site_name = str(input(">> Insert site: "))
-                user_name = str(input(">> Insert username: "))
-                # user_name[0] == " " --> SAME AS 'user_name'
-                while(user_name == "" or user_name[0] == " "):
-                    print(":: 'username' can't be empty. Retry")
-                    user_name = str(input(">> Insert username: "))
-                self.SettingsSelection()
-                print(":: Generating password...")
-                self.text = self.Generate(self.charset,self.length)
-                delimiter = ";"
-                clear_password_file.write(group_name + delimiter + site_name + delimiter + user_name  + delimiter + self.text + "\n")
+            with open(path + 'list_clear_passwords_new.csv',mode = 'w',newline = "\n") as list_clear_passwords,\
+            open(path + 'list_encrypt_passwords_new.csv',mode = 'w',newline = "\n") as list_encrypted_passwords:
+                clear_writer = csv.writer(list_clear_passwords,delimiter = ";")
+                clear_writer.writerow(["GROUP","SITE","USERNAME","CLEAR PASSWORD"])
                 if(num_files == 2):
+                    encrypted_writer = csv.writer(list_encrypted_passwords,delimiter = ";")
+                    encrypted_writer.writerow(["GROUP","SITE","USERNAME","ENCRYPTED PASSWORD"])
+                flag = 0; group_name = "Root"
+                while(flag == 0):
+                    site_name = str(input(">> Insert site: "))
+                    # site_name[0] == " " --> USER CAN INSERT ANY NUMBER OF SPACES
+                    # 'site_name' IS ALWAYS INVALID; JUST CHECK THE FIRST CHAR
+                    while(site_name == "" or site_name[0] == " "):
+                        print(":: 'Site' can't be empty. Retry")
+                        site_name = str(input(">> Insert site: "))
+                    user_name = str(input(">> Insert username: "))
+                    # user_name[0] == " " --> SAME AS 'user_name'
+                    while(user_name == "" or user_name[0] == " "):
+                        print(":: 'username' can't be empty. Retry")
+                        user_name = str(input(">> Insert username: "))
+                    self.SettingsSelection()
+                    print(":: Generating password...")
+                    self.text = self.Generate(self.charset,self.length)
                     caesar_password = cipher_passwd.Caesar(self.text,shift) 
-                    encrypt_password_file.write(group_name + delimiter + site_name + delimiter + user_name + delimiter + caesar_password + "\n")
-                print(":: Completed")
-                ans = str(input(">> Repeat?[Y/n] "))
-                if(ans == 'y' or ans == 'Y'):
-                    flag = 0
-                else:
-                    flag = 1 # WE'RE DONE
-
+                    clear_writer.writerow([group_name,site_name,user_name,self.text,])
+                    if(num_files == 2):
+                        encrypted_writer.writerow([group_name,site_name,user_name,caesar_password,])
+                    print(":: Completed")
+                    ans = str(input(">> Repeat?[Y/n] "))
+                    if(ans == 'y' or ans == 'Y'):
+                        flag = 0
+                    else:
+                        flag = 1 # WE'RE DONE
+            
         # AUTOMATED MODE
-        if (mode == 1):
+        elif (mode == 1):
             print(">> Select the file containing the old passwords: ")
             print(":: (Keep in mind that every file previous generated")
             print(":: will be deleted)")

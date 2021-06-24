@@ -29,7 +29,7 @@ someone could gain access to all of your sites. (I know there are more useful wa
 encrypt your passwords, but if you are going to print them for keeping a offline/backup copy 
 without needing a computer, I doubt you can decrypt making calculation in mind. With 'Caesar', 
 it's easier to go back to the original password).
-In the 'example' folder, there a example .csv file that you can use for testing
+In the 'example' folder, there a example .csv file that you can use for testing.
 
 **Usage**
 
@@ -47,3 +47,7 @@ In the 'example' folder, there a example .csv file that you can use for testing
   or<br />
 - Download or clone the source folder; <br />
 - Simply run 'python main.py' on a terminal.
+
+**Disclaimer**
+This tool is made by an amateur. I'm sure that there are some bugs, or there more efficient ways to actually do it.
+
